@@ -1,16 +1,18 @@
-import { envs } from "./config/envs.js";
-import { Server } from "./presentation/server.js";
+import 'dotenv/config';
+import { PostgresDatabase } from './data/postgres/postgres.database';
+import { Server } from './presentation/server';
 
-(() => {
-  main();
-})();
+async function main(): Promise<void> {
+  // 1. Connect to database
+  const db = PostgresDatabase.getInstance();
+  await db.connect();
 
-async function main() {
-
-  //todo: await base de datos
-
-  //todo: inicio de nuestro servidor
-  new Server({
-    port: envs.PORT,
-  }).start();
+  // 2. Start HTTP server
+  const server = new Server();
+  server.start();
 }
+
+main().catch((error) => {
+  console.error('Fatal error during startup:', error);
+  process.exit(1);
+});
