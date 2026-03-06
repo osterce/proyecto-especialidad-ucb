@@ -4,11 +4,21 @@ import Cookies from 'js-cookie'
 const AuthContext = createContext(null)
 
 const COOKIE_KEY = 'auth_token'
+const STORAGE_KEY = 'auth_user'
 
 export const AuthProvider = ({ children }) => {
   // token vive solo en estado interno; NO se expone en el contexto público
   const [token, setToken] = useState(() => Cookies.get(COOKIE_KEY) || null)
-  const [user, setUser] = useState(null)
+
+  // user se restaura desde localStorage al refrescar la página
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      return stored ? JSON.parse(stored) : null
+    } catch {
+      return null
+    }
+  })
 
   const isAuthenticated = !!token
 
@@ -19,12 +29,14 @@ export const AuthProvider = ({ children }) => {
       // Solo transmitir la cookie por HTTPS en producción
       secure: import.meta.env.PROD,
     })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data.user))
     setToken(data.token)
     setUser(data.user)
   }
 
   const logout = () => {
     Cookies.remove(COOKIE_KEY)
+    localStorage.removeItem(STORAGE_KEY)
     setToken(null)
     setUser(null)
   }
