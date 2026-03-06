@@ -41,5 +41,15 @@ export const userService = {
     return apiFetch(`${BASE_URL}/auth/deactivate/${userId}`, {
       method: 'DELETE',
     })
+  },
+
+  /**
+   * Reactivar un usuario desactivado
+   * @param {number|string} userId 
+   */
+  activateUser: async (userId) => {
+    return apiFetch(`${BASE_URL}/auth/activate/${userId}`, {
+      method: 'PUT',
+    })
   }
 }

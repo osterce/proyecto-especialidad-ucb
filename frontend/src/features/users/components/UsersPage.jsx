@@ -16,12 +16,13 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu'
-import { IconDotsVertical, IconPlus, IconShield, IconBan } from '@tabler/icons-react'
+import { IconDotsVertical, IconPlus, IconShield, IconBan, IconUserCheck } from '@tabler/icons-react'
 import { userService } from '../services/userService'
 
 import CreateUserDialog from './CreateUserDialog'
 import UpdateRolesDialog from './UpdateRolesDialog'
 import DeactivateUserAlert from './DeactivateUserAlert'
+import ActivateUserAlert from './ActivateUserAlert'
 
 const ROLE_LABELS = {
   'ADMIN_ROLE': 'Administrador',
@@ -37,6 +38,7 @@ const UsersPage = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [userToEditRoles, setUserToEditRoles] = useState(null)
   const [userToDeactivate, setUserToDeactivate] = useState(null)
+  const [userToActivate, setUserToActivate] = useState(null)
 
   const fetchUsers = async () => {
     try {
@@ -126,13 +128,21 @@ const UsersPage = () => {
                           <IconShield className="mr-2 size-4" />
                           Modificar Roles
                         </DropdownMenuItem>
-                        {u.isActive && (
+                        {u.isActive ? (
                           <DropdownMenuItem 
                             onClick={() => setUserToDeactivate(u)}
                             className="text-destructive focus:bg-destructive/10 focus:text-destructive"
                           >
                             <IconBan className="mr-2 size-4" />
                             Desactivar
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem 
+                            onClick={() => setUserToActivate(u)}
+                            className="text-green-600 focus:bg-green-50 focus:text-green-700"
+                          >
+                            <IconUserCheck className="mr-2 size-4" />
+                            Activar
                           </DropdownMenuItem>
                         )}
                       </DropdownMenuContent>
@@ -161,6 +171,12 @@ const UsersPage = () => {
       <DeactivateUserAlert 
         user={userToDeactivate} 
         onOpenChange={(isOpen) => !isOpen && setUserToDeactivate(null)}
+        onSuccess={fetchUsers} 
+      />
+
+      <ActivateUserAlert 
+        user={userToActivate} 
+        onOpenChange={(isOpen) => !isOpen && setUserToActivate(null)}
         onSuccess={fetchUsers} 
       />
     </div>
