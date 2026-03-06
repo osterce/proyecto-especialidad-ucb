@@ -1,23 +1,35 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from '@/features/auth/components/LoginPage'
 import DashboardPage from '@/features/dashboard/components/DashboardPage'
+import SettingsPage from '@/features/settings/components/SettingsPage'
+import InventoryPage from '@/features/inventory/components/InventoryPage'
+import ProductsPage from '@/features/products/components/ProductsPage'
+import CategoriesPage from '@/features/categories/components/CategoriesPage'
+import WarehousesPage from '@/features/warehouses/components/WarehousesPage'
+import ReportsPage from '@/features/reports/components/ReportsPage'
+import UsersPage from '@/features/users/components/UsersPage'
 import ProtectedRoute from './ProtectedRoute'
+import AppLayout from '@/layouts/AppLayout'
 
 const AppRouter = () => {
   return (
     <Routes>
-      {/* Ruta raíz → redirige a login */}
       <Route path="/" element={<Navigate to="/login" replace />} />
-
-      {/* Ruta pública */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Rutas protegidas */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard"   element={<DashboardPage />} />
+          <Route path="/inventory"   element={<InventoryPage />} />
+          <Route path="/products"    element={<ProductsPage />} />
+          <Route path="/categories"  element={<CategoriesPage />} />
+          <Route path="/warehouses"  element={<WarehousesPage />} />
+          <Route path="/reports"     element={<ReportsPage />} />
+          <Route path="/users/list"  element={<UsersPage />} />
+          <Route path="/ajustes"     element={<SettingsPage />} />
+        </Route>
       </Route>
 
-      {/* Fallback */}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )

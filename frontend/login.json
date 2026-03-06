@@ -1,0 +1,1 @@
+{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTc3MjgzNTA3MSwiZXhwIjoxNzcyODQyMjcxfQ.an9K9idGKQuNtULEu-LOxxirzTf0j-ESfxGAWnpXIAs","user":{"id":18,"name":"test","email":"test@test.com","roles":["ADMIN_ROLE"],"isActive":true,"createdAt":"2026-03-06T20:02:29.941Z"}}
