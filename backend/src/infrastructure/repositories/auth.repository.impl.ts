@@ -13,6 +13,7 @@ export class AuthRepositoryImpl implements AuthRepository {
   getUserById(id: number): Promise<UserEntity> { return this.authDataSource.getUserById(id); }
   updateUser(id: number, dto: UpdateUserDto): Promise<UserEntity> { return this.authDataSource.updateUser(id, dto); }
   deactivateUser(id: number): Promise<UserEntity> { return this.authDataSource.deactivateUser(id); }
+  activateUser(id: number): Promise<UserEntity> { return this.authDataSource.activateUser(id); }
   changePassword(id: number, currentPassword: string, newPassword: string): Promise<void> { return this.authDataSource.changePassword(id, currentPassword, newPassword); }
   updateRoles(id: number, roles: string[]): Promise<UserEntity> { return this.authDataSource.updateRoles(id, roles); }
 }

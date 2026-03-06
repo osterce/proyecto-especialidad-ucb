@@ -117,6 +117,15 @@ export class AuthPostgresDataSourceImpl implements AuthDataSource {
     return this.getUserById(id);
   }
 
+  async activateUser(id: number): Promise<UserEntity> {
+    const result = await this.pool.query(
+      'UPDATE users SET is_active = true WHERE id = $1 RETURNING id',
+      [id],
+    );
+    if (result.rows.length === 0) throw CustomError.notFound('User not found');
+    return this.getUserById(id);
+  }
+
   async changePassword(id: number, currentPassword: string, newPassword: string): Promise<void> {
     const result = await this.pool.query('SELECT password_hash FROM users WHERE id = $1', [id]);
     if (result.rows.length === 0) throw CustomError.notFound('User not found');

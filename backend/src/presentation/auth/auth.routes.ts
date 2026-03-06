@@ -27,6 +27,7 @@ export class AuthRoutes {
     router.put('/change-password', [AuthMiddleware.validateJWT], controller.changePassword);
     router.put('/update/:id', [AuthMiddleware.validateJWT], controller.updateUser);
     router.delete('/deactivate/:id', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.deactivateUser);
+    router.put('/activate/:id', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.activateUser);
 
     // Admin only
     router.put('/admin/users/:id/roles', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.updateRoles);
