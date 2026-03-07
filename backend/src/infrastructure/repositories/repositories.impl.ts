@@ -38,6 +38,7 @@ export class CategoryRepositoryImpl implements CategoryRepository {
   getById(id: number): Promise<CategoryEntity> { return this.ds.getById(id); }
   update(id: number, dto: UpdateCategoryDto): Promise<CategoryEntity> { return this.ds.update(id, dto); }
   deactivate(id: number): Promise<CategoryEntity> { return this.ds.deactivate(id); }
+  activate(id: number): Promise<CategoryEntity> { return this.ds.activate(id); }
 }
 
 export class WarehouseRepositoryImpl implements WarehouseRepository {

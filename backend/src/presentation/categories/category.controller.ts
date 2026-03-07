@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { CategoryRepository } from '../../domain/repositories/category.repository';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../domain/dtos/categories/category.dto';
-import { CreateCategory, GetCategories, UpdateCategory, DeactivateCategory } from '../../domain/use-cases/categories/category.use-case';
+import { CreateCategory, GetCategories, UpdateCategory, DeactivateCategory, ActivateCategory } from '../../domain/use-cases/categories/category.use-case';
 import { CustomError } from '../../domain/errors/custom.error';
 
 export class CategoryController {
@@ -35,5 +35,11 @@ export class CategoryController {
     const id = parseInt(req.params["id"] as string);
     if (isNaN(id)) { res.status(400).json({ error: 'Invalid ID' }); return; }
     new DeactivateCategory(this.categoryRepository).execute(id).then((d) => res.json(d)).catch((e) => this.handleError(e, res));
+  };
+
+  activate = (req: Request, res: Response): void => {
+    const id = parseInt(req.params["id"] as string);
+    if (isNaN(id)) { res.status(400).json({ error: 'Invalid ID' }); return; }
+    new ActivateCategory(this.categoryRepository).execute(id).then((d) => res.json(d)).catch((e) => this.handleError(e, res));
   };
 }

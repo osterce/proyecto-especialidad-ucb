@@ -13,6 +13,7 @@ export class CategoryRoutes {
     router.post('/', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.create);
     router.put('/:id', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.update);
     router.delete('/:id', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.deactivate);
+    router.put('/:id/activate', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.activate);
 
     return router;
   }

@@ -7,4 +7,5 @@ export abstract class CategoryDataSource {
   abstract getById(id: number): Promise<CategoryEntity>;
   abstract update(id: number, dto: UpdateCategoryDto): Promise<CategoryEntity>;
   abstract deactivate(id: number): Promise<CategoryEntity>;
+  abstract activate(id: number): Promise<CategoryEntity>;
 }

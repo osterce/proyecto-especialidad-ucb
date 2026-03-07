@@ -21,3 +21,8 @@ export class DeactivateCategory {
   constructor(private readonly categoryRepository: CategoryRepository) { }
   execute(id: number) { return this.categoryRepository.deactivate(id); }
 }
+
+export class ActivateCategory {
+  constructor(private readonly categoryRepository: CategoryRepository) { }
+  execute(id: number) { return this.categoryRepository.activate(id); }
+}

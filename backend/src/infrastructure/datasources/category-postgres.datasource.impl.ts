@@ -50,4 +50,12 @@ export class CategoryPostgresDataSourceImpl implements CategoryDataSource {
     if (result.rows.length === 0) throw CustomError.notFound('Category not found');
     return CategoryMapper.fromRow(result.rows[0]);
   }
+
+  async activate(id: number): Promise<CategoryEntity> {
+    const result = await this.pool.query(
+      'UPDATE categories SET is_active = true WHERE id = $1 RETURNING *', [id],
+    );
+    if (result.rows.length === 0) throw CustomError.notFound('Category not found');
+    return CategoryMapper.fromRow(result.rows[0]);
+  }
 }
