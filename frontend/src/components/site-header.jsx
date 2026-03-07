@@ -3,6 +3,7 @@ import { useMenuConfig } from "@/context/MenuConfigContext"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { ModeToggle } from "@/components/mode-toggle"
 
 export function SiteHeader() {
   const location = useLocation()
@@ -32,15 +33,7 @@ export function SiteHeader() {
         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
         <h1 className="text-lg font-bold mt-3 mb-3">{currentTitle}</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
-            <a
-              href="https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="dark:text-foreground">
-              GitHub
-            </a>
-          </Button>
+          <ModeToggle />
         </div>
       </div>
     </header>

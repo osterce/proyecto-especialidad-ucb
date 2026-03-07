@@ -4,6 +4,7 @@ import { MenuConfigProvider } from '@/context/MenuConfigContext'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import AppRouter from '@/router/AppRouter'
 import { Toaster } from '@/components/ui/sonner'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const App = () => {
   return (
@@ -11,8 +12,10 @@ const App = () => {
       <AuthProvider>
         <MenuConfigProvider>
           <TooltipProvider>
-            <AppRouter />
-            <Toaster />
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <AppRouter />
+              <Toaster />
+            </ThemeProvider>
           </TooltipProvider>
         </MenuConfigProvider>
       </AuthProvider>
