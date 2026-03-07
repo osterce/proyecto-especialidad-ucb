@@ -1,4 +1,5 @@
 import * as React from "react"
+import logo from "@/assets/logo.png";
 import { useNavigate, useLocation } from "react-router-dom"
 import {
   IconHelp,
@@ -54,7 +55,10 @@ export function AppSidebar({
     url: item.url,
     icon: item.icon,
     isActive: location.pathname === item.url || (item.items && item.items.some(sub => location.pathname === sub.url)),
-    items: item.items,
+    items: item.items?.map(sub => ({
+      ...sub,
+      isActive: location.pathname === sub.url
+    })),
   }))
 
   return (
@@ -63,10 +67,10 @@ export function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:p-1.5!">
-              <a href="/dashboard">
-                <IconInnerShadowTop className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              <div className="flex items-center justify-center mt-6 gap-3 overflow-visible p-1">
+                  <img src={logo} alt="Textiles logo" className="w-12 h-12 object-contain" />
+                  <span className="font-semibold font-inspiration text-5xl leading-none">Textiles</span>
+                </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

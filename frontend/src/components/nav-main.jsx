@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/collapsible"
 import {
   SidebarGroup,
+  SidebarGroupLabel,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
@@ -17,30 +18,19 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
+import { Separator } from "@/components/ui/separator"
 
 export function NavMain({
   items
 }) {
   return (
     <SidebarGroup>
+      <Separator className="my-2" />
+      <SidebarGroupLabel asChild className="pt-2 pb-2">
+        <div className="px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Menú</div>
+      </SidebarGroupLabel>
+      <Separator className="my-2" />
       <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Quick Create"
-              className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground">
-              <IconCirclePlusFilled />
-              <span>Quick Create</span>
-            </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline">
-              <IconMail />
-              <span className="sr-only">Inbox</span>
-            </Button>
-          </SidebarMenuItem>
-        </SidebarMenu>
         <SidebarMenu>
           {items.map((item) => {
             if (item.items?.length > 0) {
@@ -63,7 +53,11 @@ export function NavMain({
                       <SidebarMenuSub>
                         {item.items.map((subItem) => (
                           <SidebarMenuSubItem key={subItem.title}>
-                            <SidebarMenuSubButton asChild>
+                            <SidebarMenuSubButton 
+                              asChild 
+                              isActive={subItem.isActive}
+                              className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:hover:bg-primary/90"
+                            >
                               <Link to={subItem.url}>
                                 <span>{subItem.title}</span>
                               </Link>
@@ -79,7 +73,12 @@ export function NavMain({
 
             return (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
+                <SidebarMenuButton 
+                  asChild 
+                  tooltip={item.title} 
+                  isActive={item.isActive}
+                  className="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:hover:bg-primary/90"
+                >
                   <Link to={item.url}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
@@ -90,6 +89,7 @@ export function NavMain({
           })}
         </SidebarMenu>
       </SidebarGroupContent>
+    <Separator className="my-2" />
     </SidebarGroup>
   );
 }
