@@ -9,7 +9,7 @@ export class CreateCategory {
 
 export class GetCategories {
   constructor(private readonly categoryRepository: CategoryRepository) { }
-  execute(): Promise<CategoryEntity[]> { return this.categoryRepository.getAll(); }
+  execute(isActive?: boolean): Promise<CategoryEntity[]> { return this.categoryRepository.getAll(isActive); }
 }
 
 export class UpdateCategory {

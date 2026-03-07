@@ -34,7 +34,7 @@ export class SupplierRepositoryImpl implements SupplierRepository {
 export class CategoryRepositoryImpl implements CategoryRepository {
   constructor(private readonly ds: CategoryDataSource) { }
   create(dto: CreateCategoryDto): Promise<CategoryEntity> { return this.ds.create(dto); }
-  getAll(): Promise<CategoryEntity[]> { return this.ds.getAll(); }
+  getAll(isActive?: boolean): Promise<CategoryEntity[]> { return this.ds.getAll(isActive); }
   getById(id: number): Promise<CategoryEntity> { return this.ds.getById(id); }
   update(id: number, dto: UpdateCategoryDto): Promise<CategoryEntity> { return this.ds.update(id, dto); }
   deactivate(id: number): Promise<CategoryEntity> { return this.ds.deactivate(id); }

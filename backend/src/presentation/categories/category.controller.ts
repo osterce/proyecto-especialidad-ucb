@@ -19,8 +19,12 @@ export class CategoryController {
     new CreateCategory(this.categoryRepository).execute(dto!).then((d) => res.status(201).json(d)).catch((e) => this.handleError(e, res));
   };
 
-  getAll = (_req: Request, res: Response): void => {
-    new GetCategories(this.categoryRepository).execute().then((d) => res.json(d)).catch((e) => this.handleError(e, res));
+  getAll = (req: Request, res: Response): void => {
+    let isActive: boolean | undefined;
+    if (req.query.isActive !== undefined) {
+      isActive = req.query.isActive === 'true';
+    }
+    new GetCategories(this.categoryRepository).execute(isActive).then((d) => res.json(d)).catch((e) => this.handleError(e, res));
   };
 
   update = (req: Request, res: Response): void => {

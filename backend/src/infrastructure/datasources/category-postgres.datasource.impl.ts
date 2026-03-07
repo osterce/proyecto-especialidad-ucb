@@ -16,8 +16,9 @@ export class CategoryPostgresDataSourceImpl implements CategoryDataSource {
     return CategoryMapper.fromRow(result.rows[0]);
   }
 
-  async getAll(): Promise<CategoryEntity[]> {
-    const result = await this.pool.query('SELECT * FROM categories WHERE is_active = true ORDER BY name');
+  async getAll(isActive?: boolean): Promise<CategoryEntity[]> {
+    const where = isActive !== undefined ? `WHERE is_active = ${isActive}` : '';
+    const result = await this.pool.query(`SELECT * FROM categories ${where} ORDER BY name`);
     return result.rows.map(CategoryMapper.fromRow);
   }
 
