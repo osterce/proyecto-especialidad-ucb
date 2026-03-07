@@ -26,3 +26,8 @@ export class DeactivateProduct {
   constructor(private readonly productRepository: ProductRepository) { }
   execute(id: number) { return this.productRepository.deactivate(id); }
 }
+
+export class ActivateProduct {
+  constructor(private readonly productRepository: ProductRepository) { }
+  execute(id: number) { return this.productRepository.activate(id); }
+}

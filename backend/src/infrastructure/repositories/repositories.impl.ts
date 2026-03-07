@@ -56,6 +56,7 @@ export class ProductRepositoryImpl implements ProductRepository {
   getById(id: number): Promise<ProductEntity> { return this.ds.getById(id); }
   update(id: number, dto: UpdateProductDto): Promise<ProductEntity> { return this.ds.update(id, dto); }
   deactivate(id: number): Promise<ProductEntity> { return this.ds.deactivate(id); }
+  activate(id: number): Promise<ProductEntity> { return this.ds.activate(id); }
 }
 
 export class InventoryRepositoryImpl implements InventoryRepository {

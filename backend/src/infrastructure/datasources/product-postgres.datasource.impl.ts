@@ -68,4 +68,12 @@ export class ProductPostgresDataSourceImpl implements ProductDataSource {
     if (result.rows.length === 0) throw CustomError.notFound('Product not found');
     return this.getById(id);
   }
+
+  async activate(id: number): Promise<ProductEntity> {
+    const result = await this.pool.query(
+      'UPDATE products SET is_active = true WHERE id = $1 RETURNING id', [id],
+    );
+    if (result.rows.length === 0) throw CustomError.notFound('Product not found');
+    return this.getById(id);
+  }
 }

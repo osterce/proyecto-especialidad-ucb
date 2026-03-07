@@ -7,4 +7,5 @@ export abstract class ProductRepository {
   abstract getById(id: number): Promise<ProductEntity>;
   abstract update(id: number, dto: UpdateProductDto): Promise<ProductEntity>;
   abstract deactivate(id: number): Promise<ProductEntity>;
+  abstract activate(id: number): Promise<ProductEntity>;
 }

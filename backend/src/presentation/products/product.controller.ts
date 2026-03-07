@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ProductRepository } from '../../domain/repositories/product.repository';
 import { CreateProductDto, UpdateProductDto } from '../../domain/dtos/products/product.dto';
-import { CreateProduct, GetProducts, GetProductById, UpdateProduct, DeactivateProduct } from '../../domain/use-cases/products/product.use-case';
+import { CreateProduct, GetProducts, GetProductById, UpdateProduct, DeactivateProduct, ActivateProduct } from '../../domain/use-cases/products/product.use-case';
 import { CustomError } from '../../domain/errors/custom.error';
 
 export class ProductController {
@@ -42,5 +42,11 @@ export class ProductController {
     const id = parseInt(req.params["id"] as string);
     if (isNaN(id)) { res.status(400).json({ error: 'Invalid ID' }); return; }
     new DeactivateProduct(this.productRepository).execute(id).then((d) => res.json(d)).catch((e) => this.handleError(e, res));
+  };
+
+  activate = (req: Request, res: Response): void => {
+    const id = parseInt(req.params["id"] as string);
+    if (isNaN(id)) { res.status(400).json({ error: 'Invalid ID' }); return; }
+    new ActivateProduct(this.productRepository).execute(id).then((d) => res.json(d)).catch((e) => this.handleError(e, res));
   };
 }
