@@ -11,7 +11,15 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { productService } from '../services/productService'
+import { categoryService } from '@/features/categories/services/categoryService'
 
 export default function UpdateProductDialog({ product, onOpenChange, onSuccess }) {
   const [loading, setLoading] = useState(false)
@@ -36,6 +44,21 @@ export default function UpdateProductDialog({ product, onOpenChange, onSuccess }
         minStock: product.minStock?.toString() || '0'
       })
     }
+  }, [product])
+
+  const [categories, setCategories] = useState([])
+
+  // Load categories
+  useEffect(() => {
+    const fetchCats = async () => {
+      try {
+        const data = await categoryService.getCategories(true)
+        setCategories(data)
+      } catch (error) {
+        toast.error('Error cargando categorías', { description: error.message })
+      }
+    }
+    if (product) fetchCats()
   }, [product])
 
   const handleChange = (e) => {
@@ -137,15 +160,22 @@ export default function UpdateProductDialog({ product, onOpenChange, onSuccess }
             </div>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="categoryId">ID Categoría (Opcional)</Label>
-            <Input 
-              id="categoryId" 
-              type="number"
-              min="1"
-              value={formData.categoryId}
-              onChange={handleChange}
-              placeholder="ID de categoría"
-            />
+            <Label htmlFor="categoryId">Categoría (Opcional)</Label>
+            <Select 
+              value={formData.categoryId || ""} 
+              onValueChange={(value) => setFormData((prev) => ({ ...prev, categoryId: value }))}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecciona una categoría" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((c) => (
+                  <SelectItem key={c.id} value={c.id.toString()}>
+                    {c.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="description">Descripción (Opcional)</Label>
