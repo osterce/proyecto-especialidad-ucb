@@ -1,13 +1,22 @@
 import { useLocation } from "react-router-dom"
 import { useMenuConfig } from "@/context/MenuConfigContext"
+import { useAuth } from "@/context/AuthContext"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { ModeToggle } from "@/components/mode-toggle"
+import { Badge } from "@/components/ui/badge"
+
+const roleLabels = {
+  ADMIN_ROLE: 'Administrador',
+  WAREHOUSE_ROLE: 'Almacén',
+  USER_ROLE: 'Usuario estándar',
+}
 
 export function SiteHeader() {
   const location = useLocation()
   const { visibleItems } = useMenuConfig()
+  const { user } = useAuth()
 
   let currentTitle = "Textiles"
   for (const item of visibleItems) {
@@ -25,6 +34,10 @@ export function SiteHeader() {
     }
   }
 
+  // Determine user primary role label
+  const primaryRole = user?.roles?.[0]
+  const displayRole = primaryRole ? (roleLabels[primaryRole] || primaryRole) : null
+
   return (
     <header
       className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
@@ -32,7 +45,12 @@ export function SiteHeader() {
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
         <h1 className="text-lg font-bold mt-3 mb-3">{currentTitle}</h1>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-4">
+          {displayRole && (
+            <Badge variant="secondary" className="px-4 mr-2 capitalize font-bold">
+              {displayRole}
+            </Badge>
+          )}
           <ModeToggle />
         </div>
       </div>
