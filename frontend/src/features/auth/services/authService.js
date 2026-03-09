@@ -40,4 +40,22 @@ export const authService = {
   async validateToken() {
     await apiFetch(`${BASE_URL}/`)
   },
+
+  /**
+   * First login password change
+   */
+  async activateAccount(email, currentPassword, newPassword, confirmPassword) {
+    const res = await fetch(`${BASE_URL}/activate-account`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, currentPassword, newPassword, confirmPassword }),
+    })
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}))
+      throw new Error(err.error || 'Error al cambiar la contraseña')
+    }
+
+    return res.json()
+  }
 }

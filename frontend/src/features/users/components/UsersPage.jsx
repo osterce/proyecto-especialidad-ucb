@@ -42,7 +42,7 @@ import {
 import { userService } from '../services/userService'
 
 import CreateUserDialog from './CreateUserDialog'
-import UpdateRolesDialog from './UpdateRolesDialog'
+import UpdateUserDialog from './UpdateUserDialog'
 import DeactivateUserAlert from './DeactivateUserAlert'
 import ActivateUserAlert from './ActivateUserAlert'
 
@@ -58,7 +58,7 @@ const UsersPage = () => {
 
   // Dialog States
   const [isCreateOpen, setIsCreateOpen] = useState(false)
-  const [userToEditRoles, setUserToEditRoles] = useState(null)
+  const [userToEdit, setUserToEdit] = useState(null)
   const [userToDeactivate, setUserToDeactivate] = useState(null)
   const [userToActivate, setUserToActivate] = useState(null)
 
@@ -296,9 +296,9 @@ const UsersPage = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => setUserToEditRoles(u)}>
+                        <DropdownMenuItem onClick={() => setUserToEdit(u)}>
                           <IconShield className="mr-2 size-4" />
-                          Modificar Roles
+                          Modificar
                         </DropdownMenuItem>
                         {u.isActive ? (
                           <DropdownMenuItem 
@@ -377,9 +377,9 @@ const UsersPage = () => {
         onSuccess={fetchUsers} 
       />
 
-      <UpdateRolesDialog 
-        user={userToEditRoles} 
-        onOpenChange={(isOpen) => !isOpen && setUserToEditRoles(null)}
+      <UpdateUserDialog 
+        user={userToEdit} 
+        onOpenChange={(isOpen) => !isOpen && setUserToEdit(null)}
         onSuccess={fetchUsers} 
       />
 

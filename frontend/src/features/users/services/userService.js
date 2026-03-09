@@ -22,6 +22,18 @@ export const userService = {
   },
 
   /**
+   * Actualizar nombre e email de un usuario (Admin)
+   * @param {number|string} userId 
+   * @param {Object} userData - { name, email }
+   */
+  updateUser: async (userId, userData) => {
+    return apiFetch(`${BASE_URL}/auth/update/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(userData),
+    })
+  },
+
+  /**
    * Actualizar roles de un usuario existente
    * @param {number|string} userId
    * @param {string[]} roles
@@ -49,6 +61,16 @@ export const userService = {
    */
   activateUser: async (userId) => {
     return apiFetch(`${BASE_URL}/auth/activate/${userId}`, {
+      method: 'PUT',
+    })
+  },
+
+  /**
+   * Resetear contraseña de un usuario a default (123456)
+   * @param {number|string} userId 
+   */
+  resetPassword: async (userId) => {
+    return apiFetch(`${BASE_URL}/auth/admin/users/${userId}/reset-password`, {
       method: 'PUT',
     })
   }

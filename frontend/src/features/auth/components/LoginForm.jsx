@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLogin } from '../hooks/useLogin'
+// Removed local hooks
 import {
   Card,
   CardContent,
@@ -11,14 +11,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 
-const LoginForm = () => {
+const LoginForm = ({ onSubmit, loading, error }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { handleSubmit, loading, error } = useLogin()
 
-  const onSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault()
-    handleSubmit(email, password)
+    onSubmit(email, password)
   }
 
   return (
@@ -28,7 +27,7 @@ const LoginForm = () => {
         <CardDescription>Ingresa tus credenciales para acceder al sistema</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={onSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">Correo electrónico</Label>
             <Input
