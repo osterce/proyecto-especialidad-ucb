@@ -3,6 +3,7 @@ import LoginPage from '@/features/auth/components/LoginPage'
 import DashboardPage from '@/features/dashboard/components/DashboardPage'
 import SettingsPage from '@/features/settings/components/SettingsPage'
 import InventoryPage from '@/features/inventory/components/InventoryPage'
+import MovementsHistoryPage from '@/features/inventory/components/MovementsHistoryPage'
 import ProductsPage from '@/features/products/components/ProductsPage'
 import CategoriesPage from '@/features/categories/components/CategoriesPage'
 import WarehousesPage from '@/features/warehouses/components/WarehousesPage'
@@ -22,6 +23,7 @@ const AppRouter = () => {
         <Route element={<AppLayout />}>
           <Route path="/dashboard"   element={<DashboardPage />} />
           <Route path="/inventory"   element={<InventoryPage />} />
+          <Route path="/inventory/movements" element={<MovementsHistoryPage />} />
           <Route path="/products"    element={<ProductsPage />} />
           <Route path="/categories"  element={<CategoriesPage />} />
           <Route path="/warehouses"  element={<WarehousesPage />} />

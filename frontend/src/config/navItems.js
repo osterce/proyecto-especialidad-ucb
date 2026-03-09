@@ -26,6 +26,16 @@ export const ALL_NAV_ITEMS = [
     url: '/inventory',
     icon: IconPackage,
     defaultVisible: true,
+    items: [
+      {
+        title: 'Stock Actual',
+        url: '/inventory',
+      },
+      {
+        title: 'Movimientos',
+        url: '/inventory/movements',
+      },
+    ],
   },
   {
     id: 'productos',
