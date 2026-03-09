@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { WarehouseRepository } from '../../domain/repositories/warehouse.repository';
 import { CreateWarehouseDto, UpdateWarehouseDto } from '../../domain/dtos/warehouses/warehouse.dto';
-import { CreateWarehouse, GetWarehouses, UpdateWarehouse, DeactivateWarehouse } from '../../domain/use-cases/warehouses/warehouse.use-case';
+import { CreateWarehouse, GetWarehouses, UpdateWarehouse, DeactivateWarehouse, ActivateWarehouse } from '../../domain/use-cases/warehouses/warehouse.use-case';
 import { CustomError } from '../../domain/errors/custom.error';
 
 export class WarehouseController {
@@ -35,5 +35,11 @@ export class WarehouseController {
     const id = parseInt(req.params["id"] as string);
     if (isNaN(id)) { res.status(400).json({ error: 'Invalid ID' }); return; }
     new DeactivateWarehouse(this.warehouseRepository).execute(id).then((d) => res.json(d)).catch((e) => this.handleError(e, res));
+  };
+
+  activate = (req: Request, res: Response): void => {
+    const id = parseInt(req.params["id"] as string);
+    if (isNaN(id)) { res.status(400).json({ error: 'Invalid ID' }); return; }
+    new ActivateWarehouse(this.warehouseRepository).execute(id).then((d) => res.json(d)).catch((e) => this.handleError(e, res));
   };
 }

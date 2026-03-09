@@ -48,6 +48,7 @@ export class WarehouseRepositoryImpl implements WarehouseRepository {
   getById(id: number): Promise<WarehouseEntity> { return this.ds.getById(id); }
   update(id: number, dto: UpdateWarehouseDto): Promise<WarehouseEntity> { return this.ds.update(id, dto); }
   deactivate(id: number): Promise<WarehouseEntity> { return this.ds.deactivate(id); }
+  activate(id: number): Promise<WarehouseEntity> { return this.ds.activate(id); }
 }
 
 export class ProductRepositoryImpl implements ProductRepository {

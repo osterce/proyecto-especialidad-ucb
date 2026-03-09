@@ -51,4 +51,12 @@ export class WarehousePostgresDataSourceImpl implements WarehouseDataSource {
     if (result.rows.length === 0) throw CustomError.notFound('Warehouse not found');
     return WarehouseMapper.fromRow(result.rows[0]);
   }
+
+  async activate(id: number): Promise<WarehouseEntity> {
+    const result = await this.pool.query(
+      'UPDATE warehouses SET is_active = true WHERE id = $1 RETURNING *', [id],
+    );
+    if (result.rows.length === 0) throw CustomError.notFound('Warehouse not found');
+    return WarehouseMapper.fromRow(result.rows[0]);
+  }
 }

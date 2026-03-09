@@ -21,3 +21,8 @@ export class DeactivateWarehouse {
   constructor(private readonly warehouseRepository: WarehouseRepository) { }
   execute(id: number) { return this.warehouseRepository.deactivate(id); }
 }
+
+export class ActivateWarehouse {
+  constructor(private readonly warehouseRepository: WarehouseRepository) { }
+  execute(id: number) { return this.warehouseRepository.activate(id); }
+}
