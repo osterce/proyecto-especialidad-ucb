@@ -3,7 +3,7 @@ import { AuthRepository } from '../../domain/repositories/auth.repository';
 import { RegisterUserDto } from '../../domain/dtos/auth/register-user.dto';
 import { LoginUserDto } from '../../domain/dtos/auth/login-user.dto';
 import { UpdateUserDto } from '../../domain/dtos/auth/update-user.dto';
-import { ChangePasswordDto } from '../../domain/dtos/auth/change-password.dto';
+import { ActivateWithPasswordDto } from '../../domain/dtos/auth/activate-with-password.dto';
 import { UpdateRolesDto } from '../../domain/dtos/auth/update-roles.dto';
 import { CustomError } from '../../domain/errors/custom.error';
 import { RegisterUser } from '../../domain/use-cases/auth/register.use-case';
@@ -12,7 +12,8 @@ import { GetUsers as GetUsersUseCase } from '../../domain/use-cases/auth/get-use
 import { UpdateUser as UpdateUserUseCase } from '../../domain/use-cases/auth/update-user.use-case';
 import { DeactivateUser as DeactivateUserUseCase } from '../../domain/use-cases/auth/deactivate-user.use-case';
 import { ActivateUser as ActivateUserUseCase } from '../../domain/use-cases/auth/activate-user.use-case';
-import { ChangePassword as ChangePasswordUseCase } from '../../domain/use-cases/auth/change-password.use-case';
+import { ResetPassword as ResetPasswordUseCase } from '../../domain/use-cases/auth/reset-password.use-case';
+import { ActivateWithPassword as ActivateWithPasswordUseCase } from '../../domain/use-cases/auth/activate-with-password.use-case';
 import { UpdateRoles as UpdateRolesUseCase } from '../../domain/use-cases/auth/update-roles.use-case';
 
 export class AuthController {
@@ -88,15 +89,23 @@ export class AuthController {
       .catch((err) => this.handleError(err, res));
   };
 
+  resetPassword = (req: Request, res: Response): void => {
+    const id = parseInt(req.params["id"] as string);
+    if (isNaN(id)) { res.status(400).json({ error: 'Invalid ID' }); return; }
 
-  changePassword = (req: Request, res: Response): void => {
-    const userId = (req.body.user as { id: number }).id;
-    const [error, dto] = ChangePasswordDto.create(req.body as Record<string, unknown>);
+    new ResetPasswordUseCase(this.authRepository)
+      .execute(id)
+      .then((data) => res.json(data))
+      .catch((err) => this.handleError(err, res));
+  };
+
+  activateAccount = (req: Request, res: Response): void => {
+    const [error, dto] = ActivateWithPasswordDto.create(req.body as Record<string, unknown>);
     if (error) { res.status(400).json({ error }); return; }
 
-    new ChangePasswordUseCase(this.authRepository)
-      .execute(userId, dto!)
-      .then((data) => res.json(data))
+    new ActivateWithPasswordUseCase(this.authRepository)
+      .execute(dto!)
+      .then((data) => res.json(data)) // Devuelve al usuario (que al frontend le servira o podría loguearse despues)
       .catch((err) => this.handleError(err, res));
   };
 

@@ -11,6 +11,7 @@ export abstract class AuthRepository {
   abstract updateUser(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity>;
   abstract deactivateUser(id: number): Promise<UserEntity>;
   abstract activateUser(id: number): Promise<UserEntity>;
-  abstract changePassword(id: number, currentPassword: string, newPassword: string): Promise<void>;
+  abstract resetPassword(id: number): Promise<void>;
+  abstract activateWithPassword(email: string, currentPassword: string, newPassword: string): Promise<UserEntity>;
   abstract updateRoles(id: number, roles: string[]): Promise<UserEntity>;
 }

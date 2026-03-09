@@ -14,6 +14,7 @@ export class AuthRepositoryImpl implements AuthRepository {
   updateUser(id: number, dto: UpdateUserDto): Promise<UserEntity> { return this.authDataSource.updateUser(id, dto); }
   deactivateUser(id: number): Promise<UserEntity> { return this.authDataSource.deactivateUser(id); }
   activateUser(id: number): Promise<UserEntity> { return this.authDataSource.activateUser(id); }
-  changePassword(id: number, currentPassword: string, newPassword: string): Promise<void> { return this.authDataSource.changePassword(id, currentPassword, newPassword); }
+  resetPassword(id: number): Promise<void> { return this.authDataSource.resetPassword(id); }
+  activateWithPassword(email: string, currentPassword: string, newPassword: string): Promise<UserEntity> { return this.authDataSource.activateWithPassword(email, currentPassword, newPassword); }
   updateRoles(id: number, roles: string[]): Promise<UserEntity> { return this.authDataSource.updateRoles(id, roles); }
 }

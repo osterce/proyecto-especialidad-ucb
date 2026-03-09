@@ -24,13 +24,16 @@ export class AuthRoutes {
 
     // Protected routes (JWT required)
     router.get('/', [AuthMiddleware.validateJWT], controller.getUsers);
-    router.put('/change-password', [AuthMiddleware.validateJWT], controller.changePassword);
     router.put('/update/:id', [AuthMiddleware.validateJWT], controller.updateUser);
     router.delete('/deactivate/:id', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.deactivateUser);
     router.put('/activate/:id', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.activateUser);
 
     // Admin only
     router.put('/admin/users/:id/roles', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.updateRoles);
+    router.put('/admin/users/:id/reset-password', [AuthMiddleware.validateJWT, AdminMiddleware.validateAdmin], controller.resetPassword);
+
+    // Public activate action (No JWT needed, uses email/old_pwd to set new pwd)
+    router.post('/activate-account', controller.activateAccount);
 
     return router;
   }

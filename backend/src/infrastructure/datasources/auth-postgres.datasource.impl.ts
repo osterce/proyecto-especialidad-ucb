@@ -53,12 +53,20 @@ export class AuthPostgresDataSourceImpl implements AuthDataSource {
        FROM users u
        LEFT JOIN user_roles ur ON u.id = ur.user_id
        LEFT JOIN roles r ON ur.role_id = r.id
-       WHERE u.email = $1 AND u.is_active = true
+       WHERE u.email = $1
        GROUP BY u.id`,
       [dto.email],
     );
 
     if (result.rows.length === 0) throw CustomError.unauthorized('Invalid credentials');
+
+    const user = result.rows[0];
+    const isValid = BcryptAdapter.compare(dto.password, user.password_hash);
+    if (!isValid) throw CustomError.unauthorized('Invalid credentials');
+
+    if (!user.is_active) {
+      throw CustomError.forbidden('FORCE_CHANGE_PASSWORD');
+    }
 
     return UserMapper.fromRowWithRoles(result.rows[0]);
   }
@@ -126,15 +134,36 @@ export class AuthPostgresDataSourceImpl implements AuthDataSource {
     return this.getUserById(id);
   }
 
-  async changePassword(id: number, currentPassword: string, newPassword: string): Promise<void> {
-    const result = await this.pool.query('SELECT password_hash FROM users WHERE id = $1', [id]);
+  async resetPassword(id: number): Promise<void> {
+    await this.getUserById(id);
+    const newHash = BcryptAdapter.hash('123456');
+    await this.pool.query('UPDATE users SET password_hash = $1, is_active = false WHERE id = $2', [newHash, id]);
+  }
+
+  async activateWithPassword(email: string, currentPassword: string, newPassword: string): Promise<UserEntity> {
+    const result = await this.pool.query(
+      `SELECT u.*, ARRAY_AGG(r.name) FILTER (WHERE r.name IS NOT NULL) as roles
+       FROM users u
+       LEFT JOIN user_roles ur ON u.id = ur.user_id
+       LEFT JOIN roles r ON ur.role_id = r.id
+       WHERE u.email = $1
+       GROUP BY u.id`,
+      [email],
+    );
     if (result.rows.length === 0) throw CustomError.notFound('User not found');
 
-    const isValid = BcryptAdapter.compare(currentPassword, result.rows[0].password_hash);
+    const user = result.rows[0];
+    const isValid = BcryptAdapter.compare(currentPassword, user.password_hash);
     if (!isValid) throw CustomError.unauthorized('Current password is incorrect');
 
     const newHash = BcryptAdapter.hash(newPassword);
-    await this.pool.query('UPDATE users SET password_hash = $1 WHERE id = $2', [newHash, id]);
+
+    const updateResult = await this.pool.query(
+      'UPDATE users SET password_hash = $1, is_active = true WHERE id = $2 RETURNING *',
+      [newHash, user.id]
+    );
+
+    return UserMapper.fromRowWithRoles({ ...updateResult.rows[0], roles: user.roles });
   }
 
   async updateRoles(id: number, roles: string[]): Promise<UserEntity> {
