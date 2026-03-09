@@ -9,7 +9,7 @@ export class CreateWarehouse {
 
 export class GetWarehouses {
   constructor(private readonly warehouseRepository: WarehouseRepository) { }
-  execute(): Promise<WarehouseEntity[]> { return this.warehouseRepository.getAll(); }
+  execute(isActive?: boolean): Promise<WarehouseEntity[]> { return this.warehouseRepository.getAll(isActive); }
 }
 
 export class UpdateWarehouse {

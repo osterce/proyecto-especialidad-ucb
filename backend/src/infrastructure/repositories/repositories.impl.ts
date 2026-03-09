@@ -44,7 +44,7 @@ export class CategoryRepositoryImpl implements CategoryRepository {
 export class WarehouseRepositoryImpl implements WarehouseRepository {
   constructor(private readonly ds: WarehouseDataSource) { }
   create(dto: CreateWarehouseDto): Promise<WarehouseEntity> { return this.ds.create(dto); }
-  getAll(): Promise<WarehouseEntity[]> { return this.ds.getAll(); }
+  getAll(isActive?: boolean): Promise<WarehouseEntity[]> { return this.ds.getAll(isActive); }
   getById(id: number): Promise<WarehouseEntity> { return this.ds.getById(id); }
   update(id: number, dto: UpdateWarehouseDto): Promise<WarehouseEntity> { return this.ds.update(id, dto); }
   deactivate(id: number): Promise<WarehouseEntity> { return this.ds.deactivate(id); }

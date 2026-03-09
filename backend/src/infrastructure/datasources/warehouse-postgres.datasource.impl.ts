@@ -16,8 +16,17 @@ export class WarehousePostgresDataSourceImpl implements WarehouseDataSource {
     return WarehouseMapper.fromRow(result.rows[0]);
   }
 
-  async getAll(): Promise<WarehouseEntity[]> {
-    const result = await this.pool.query('SELECT * FROM warehouses WHERE is_active = true ORDER BY name');
+  async getAll(isActive?: boolean): Promise<WarehouseEntity[]> {
+    let query = 'SELECT * FROM warehouses';
+    const values: any[] = [];
+
+    if (isActive !== undefined) {
+      query += ' WHERE is_active = $1';
+      values.push(isActive);
+    }
+
+    query += ' ORDER BY name';
+    const result = await this.pool.query(query, values);
     return result.rows.map(WarehouseMapper.fromRow);
   }
 
