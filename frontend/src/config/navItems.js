@@ -60,10 +60,6 @@ export const ALL_NAV_ITEMS = [
         url: '/users/list',
       },
       {
-        title: 'Roles',
-        url: '/users/roles',
-      },
-      {
         title: 'Permisos',
         url: '/users/permissions',
       },

@@ -8,6 +8,7 @@ import CategoriesPage from '@/features/categories/components/CategoriesPage'
 import WarehousesPage from '@/features/warehouses/components/WarehousesPage'
 import ReportsPage from '@/features/reports/components/ReportsPage'
 import UsersPage from '@/features/users/components/UsersPage'
+import PermissionsPage from '@/features/users/components/PermissionsPage'
 import ProtectedRoute from './ProtectedRoute'
 import AppLayout from '@/layouts/AppLayout'
 
@@ -26,6 +27,7 @@ const AppRouter = () => {
           <Route path="/warehouses"  element={<WarehousesPage />} />
           <Route path="/reports"     element={<ReportsPage />} />
           <Route path="/users/list"  element={<UsersPage />} />
+          <Route path="/users/permissions" element={<PermissionsPage />} />
           <Route path="/ajustes"     element={<SettingsPage />} />
         </Route>
       </Route>
