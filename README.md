@@ -150,8 +150,8 @@ src/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/<usuario>/00-proyecto-especialidad.git
-cd 00-proyecto-especialidad
+git clone https://github.com/osterce/proyecto-especialidad-ucb
+cd proyecto-especialidad-ucb
 ```
 
 ### 2. Levantar la base de datos con Docker
