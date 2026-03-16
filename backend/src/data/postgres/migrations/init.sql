@@ -163,13 +163,13 @@ ON CONFLICT (name) DO NOTHING;
 -- Usuario administrador por defecto
 -- password: Admin123 (hash bcrypt)
 INSERT INTO users (name, email, password_hash) VALUES
-  ('Administrador', 'admin@inventario.com', '$2a$10$YmJmMTUwMzRjYzc2ZjJiY.DyZJ7HiXfzivyJP2FiggYvnT5bOiMOy')
+  ('Administrador', 'admin@admin.com', '$2b$10$5tZQsiyiPz2yFH2eT0gc4.4uNMRDpuFCUCxoSq9DzBdKrOYejpNvi')
 ON CONFLICT (email) DO NOTHING;
 
 -- Asignar rol ADMIN al usuario admin (id=1, role_id=1)
 INSERT INTO user_roles (user_id, role_id)
 SELECT u.id, r.id FROM users u, roles r
-WHERE u.email = 'admin@inventario.com' AND r.name = 'ADMIN_ROLE'
+WHERE u.email = 'admin@admin.com' AND r.name = 'ADMIN_ROLE'
 ON CONFLICT DO NOTHING;
 
 -- Categorías ejemplo
